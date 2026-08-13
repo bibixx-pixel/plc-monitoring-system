@@ -127,7 +127,7 @@ class MySocket:
         self.sock.close()
     
 if __name__ == "__main__":
-    # 상자 만들고 접속하기
+    # 상자 만들고 접속하기.
     my_plc = MySocket()
     my_plc.connect("192.168.1.10", 2011)
 
