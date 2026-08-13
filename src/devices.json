@@ -1,0 +1,13 @@
+{
+	"plc_setting": {
+        "ip": "192.168.1.10",
+        "port": 2011
+    },
+    "plc_d_register": {
+        "temp_read": 100
+    },
+    "plc_m_register": {
+        "alarm_high": 100,
+        "alarm_low": 101
+    }
+}

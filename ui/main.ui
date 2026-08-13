@@ -1,0 +1,743 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>989</width>
+    <height>836</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="main_dashboard">
+       <attribute name="title">
+        <string>메인 대시보드</string>
+       </attribute>
+       <widget class="QGroupBox" name="groupBox_7">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>460</y>
+          <width>921</width>
+          <height>251</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>16</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="title">
+         <string>시스템 로그</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <widget class="QTextEdit" name="txt_system_log">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_8">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>120</y>
+          <width>921</width>
+          <height>321</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>16</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="title">
+         <string>온도 모니터링</string>
+        </property>
+        <widget class="PlotWidget" name="graph_temperature" native="true">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>90</y>
+           <width>881</width>
+           <height>211</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>41</y>
+           <width>881</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLabel" name="lbl_current">
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>현재:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="dash_current">
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>--.- ℃</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lbl_high_limit">
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>상한</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="dash_high">
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>--.- ℃</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lbl_low_limit">
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>하한</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="dash_low">
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>--.- ℃</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_9">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>10</y>
+          <width>921</width>
+          <height>91</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>16</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="title">
+         <string>통신 상태</string>
+        </property>
+        <widget class="QWidget" name="">
+         <property name="geometry">
+          <rect>
+           <x>17</x>
+           <y>32</y>
+           <width>891</width>
+           <height>44</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_15">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_14">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_12">
+              <item>
+               <widget class="QLabel" name="ip_label">
+                <property name="text">
+                 <string>IP:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="search_ip"/>
+              </item>
+              <item>
+               <widget class="QLabel" name="port_label_2">
+                <property name="text">
+                 <string>Port:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="search_port"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_13">
+              <item>
+               <widget class="QPushButton" name="connect_pushButton">
+                <property name="text">
+                 <string>접속</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="disconnect_pushButton">
+                <property name="text">
+                 <string>해제</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="font">
+               <font>
+                <pointsize>16</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>통신 상태:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="lbl_status">
+              <property name="font">
+               <font>
+                <pointsize>16</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>● 연결 대기 중</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="data_inquiry">
+       <attribute name="title">
+        <string>조회 화면</string>
+       </attribute>
+       <widget class="QGroupBox" name="groupBox">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>30</y>
+          <width>941</width>
+          <height>101</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>16</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="title">
+         <string>조회 기간 설정</string>
+        </property>
+        <widget class="QPushButton" name="inquiry_btn_search">
+         <property name="geometry">
+          <rect>
+           <x>800</x>
+           <y>47</y>
+           <width>101</width>
+           <height>26</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>조회</string>
+         </property>
+        </widget>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>40</y>
+           <width>716</width>
+           <height>40</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>시작 일시:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDateTimeEdit" name="dt_start">
+            <property name="displayFormat">
+             <string>yyyy-MM-dd HH:mm</string>
+            </property>
+            <property name="calendarPopup">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>~</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>종료 일시:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDateTimeEdit" name="dt_end">
+            <property name="displayFormat">
+             <string>yyyy-MM-dd HH:mm</string>
+            </property>
+            <property name="calendarPopup">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>270</y>
+          <width>941</width>
+          <height>421</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>16</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="title">
+         <string>조회 온도 변화 추이 그래프</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="0" column="0">
+          <widget class="PlotWidget" name="graph_inquiry" native="true"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_3">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>150</y>
+          <width>941</width>
+          <height>101</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>16</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="title">
+         <string>요약 통계 정보</string>
+        </property>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>45</y>
+           <width>901</width>
+           <height>32</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QLabel" name="lbl_current_2">
+              <property name="text">
+               <string>평균:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="inquiry_avg">
+              <property name="text">
+               <string>--.- ℃</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <widget class="QLabel" name="lbl_high_limit_2">
+              <property name="text">
+               <string>상한:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="inquiry_high">
+              <property name="text">
+               <string>--.- ℃</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <widget class="QLabel" name="lbl_low_limit_2">
+              <property name="text">
+               <string>하한:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="inquiry_low">
+              <property name="text">
+               <string>--.- ℃</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="settings">
+       <attribute name="title">
+        <string>설정 화면</string>
+       </attribute>
+       <widget class="QGroupBox" name="groupBox_4">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>30</y>
+          <width>931</width>
+          <height>161</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>16</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="title">
+         <string>온도 상/하한 설정</string>
+        </property>
+        <widget class="QPushButton" name="set_btn_save">
+         <property name="geometry">
+          <rect>
+           <x>800</x>
+           <y>73</y>
+           <width>81</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>저장</string>
+         </property>
+        </widget>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>70</y>
+           <width>751</width>
+           <height>40</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <item>
+           <widget class="QLabel" name="lbl_high_limit_3">
+            <property name="text">
+             <string>상한치:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="set_high">
+            <property name="suffix">
+             <string>℃</string>
+            </property>
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lbl_low_limit_3">
+            <property name="text">
+             <string>하한치:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="set_low">
+            <property name="suffix">
+             <string>℃</string>
+            </property>
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_5">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>230</y>
+          <width>931</width>
+          <height>161</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>16</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="title">
+         <string>PLC 통신 설정</string>
+        </property>
+        <widget class="QPushButton" name="set_btn_save_2">
+         <property name="geometry">
+          <rect>
+           <x>800</x>
+           <y>73</y>
+           <width>81</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>저장</string>
+         </property>
+        </widget>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>70</y>
+           <width>751</width>
+           <height>40</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_9">
+          <item>
+           <widget class="QLabel" name="plc_label">
+            <property name="text">
+             <string>PLC IP:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="set_plc_ip"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="port_label">
+            <property name="text">
+             <string>Port:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="set_plc_port"/>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_6">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>420</y>
+          <width>931</width>
+          <height>291</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>16</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="title">
+         <string>데이터베이스(DB) 설정</string>
+        </property>
+        <widget class="QPushButton" name="set_btn_save_3">
+         <property name="geometry">
+          <rect>
+           <x>800</x>
+           <y>220</y>
+           <width>81</width>
+           <height>38</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>저장</string>
+         </property>
+        </widget>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>41</x>
+           <y>51</y>
+           <width>841</width>
+           <height>161</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <item>
+             <widget class="QLabel" name="db_path_label">
+              <property name="text">
+               <string>DB 파일 경로:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="set_db_path">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="set_btn_find">
+              <property name="text">
+               <string>찾기</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_11">
+            <item>
+             <widget class="QLabel" name="db_table_label">
+              <property name="text">
+               <string>저장 테이블명:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="set_db_table"/>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>989</width>
+     <height>33</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QWidget</extends>
+   <header>pyqtgraph</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
