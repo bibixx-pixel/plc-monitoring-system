@@ -189,7 +189,7 @@
         <property name="title">
          <string>통신 상태</string>
         </property>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
            <x>17</x>
@@ -211,7 +211,14 @@
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="search_ip"/>
+               <widget class="QLineEdit" name="search_ip">
+                <property name="text">
+                 <string>192.168.1.10</string>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
               </item>
               <item>
                <widget class="QLabel" name="port_label_2">
@@ -221,7 +228,14 @@
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="search_port"/>
+               <widget class="QLineEdit" name="search_port">
+                <property name="text">
+                 <string>2011</string>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>

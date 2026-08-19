@@ -95,6 +95,10 @@ class MainWindow(QMainWindow):
         self.ui.connect_pushButton.clicked.connect(self.communication_connect) 
         self.ui.disconnect_pushButton.clicked.connect(self.communication_disconnect)
 
+        # 프로그램 실행하자마자 IP 및 Port 입력창 비활성화
+        self.ui.search_ip.setReadOnly(True)
+        self.ui.search_port.setReadOnly(True)
+
         # 프로그램 실행하자마자 시스템 로그 창 타이핑 및 마우스 커서 비활성화
         self.ui.txt_system_log.setReadOnly(True)
 
@@ -192,6 +196,7 @@ class MainWindow(QMainWindow):
     # 메인 대시보드 통신 연결 해제 버튼 함수 
     def communication_disconnect(self):
         # 스레드가 실행 중이면 정지 (실행되고 있는지 확인)
+        
         if self.worker and self.worker.isRunning():
             # 정지하고 완전히 끝날 때까지 대기
             self.worker.stop()
@@ -478,6 +483,7 @@ class MainWindow(QMainWindow):
         )
 
         if buttonReply == QMessageBox.Yes:
+
             # 화면에서 읽어온 값을 창이 켜져 있는 동안 기억할 수 있게 클래스 변수(self)에 저장
             self.set_plc = self.ui.set_plc_ip.text()
             self.set_port = self.ui.set_plc_port.text()
@@ -526,7 +532,7 @@ class MainWindow(QMainWindow):
     def find_db_settings(self):
         # 데이터베이스(DB) 파일 경로 찾기
         # 반환되는 튜플의 첫 번째 값(경로)은 file에, 두 번째 값(선택한 필터 문자열)은 check 변수에 나누어 담음.
-        file, check = QFileDialog.getOpenFileName(self, 'DB 파일 선택', "./", "All Files (*);;Text Files (*.txt)")
+        file, check = QFileDialog.getOpenFileName(self, 'DB 파일 선택', "./", "SQLite DB Files (*.db);;All Files (*)")
 
         # check 변수에 값이 존재할 때(즉, 사용자가 취소하지 않고 정상적으로 파일을 선택했을 때)만 setText()를 수행하므로, 취소 버튼을 눌렀을 때 기존 입력창 값이 지워지는 것을 방지해 줌.
         if check:
@@ -544,6 +550,11 @@ class MainWindow(QMainWindow):
             # 화면에서 읽어온 값을 창이 켜져 있는 동안 기억할 수 있게 클래스 변수(self)에 저장
             self.db_path = self.ui.set_db_path.text()
             self.db_table = self.ui.set_db_table.text()
+
+            # 파일 경로가 .db로 끝나지 않으면 저장을 막고 경고창 띄우기
+            if not self.db_path.endswith('.db'):
+                QMessageBox.warning(self, "경고", "올바른 DB 파일(.db) 확장자가 아닙니다.\n다시 확인해주세요.")
+                return # 여기서 함수를 종료시켜버려서 아래쪽 저장이 안 되게 막음
 
             # 설정 이름표(Key)와 실제 값(Value)을 MySetting 함수에 전달하여 저장 요청
             MySetting.set('db_path', self.db_path)
