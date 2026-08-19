@@ -215,6 +215,9 @@
                 <property name="text">
                  <string>192.168.1.10</string>
                 </property>
+                <property name="dragEnabled">
+                 <bool>false</bool>
+                </property>
                 <property name="readOnly">
                  <bool>true</bool>
                 </property>
@@ -231,6 +234,9 @@
                <widget class="QLineEdit" name="search_port">
                 <property name="text">
                  <string>2011</string>
+                </property>
+                <property name="dragEnabled">
+                 <bool>false</bool>
                 </property>
                 <property name="readOnly">
                  <bool>true</bool>

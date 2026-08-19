@@ -1,5 +1,6 @@
 import sys
 from datetime import time, datetime
+import ipaddress
 
 from PySide6.QtWidgets import *
 from PySide6.QtCore import *
@@ -118,80 +119,18 @@ class MainWindow(QMainWindow):
         # 프로그램 실행하자마자 db 초기화해주기
         db_manager.init_db()
 
-    # 메인 대시보드 통신 연결 함수 (연결 버튼 전용 - 입력창 검사, 팝업창 출력, 검증 성공/실패 시 UI 상태 변경)
+    # 메인 대시보드 통신 연결 함수 (연결 버튼 전용 - 접속 버튼 눌렀을 때 실행)
     def communication_connect(self):
         # 설정 화면에서 저장한 PLC 통신 설정 불러오기
         ip = MySetting.get('set_plc')
         port = int(MySetting.get('set_port'))
 
-        # 각각 오브젝트와 연결하여 현재 적혀 있는 문자열 읽어오기
-        ip_text = self.ui.search_ip.text()
-        port_text = self.ui.search_port.text()
+        # 대시보드 화면의 글자 라벨에 값 띄우기
+        self.ui.search_ip.setText(f"{ip}")
+        self.ui.search_port.setText(f"{port}")
 
-        # ip 입력창이 빈 값인지 확인하고, 비어있다면 팝업창 뜨게하기
-        if ip_text == '':
-            # 스레드가 실행 중이면 정지 (실행되고 있는지 확인)
-            if self.worker and self.worker.isRunning():
-                # 정지하고 완전히 끝날 때까지 대기
-                self.worker.stop()
-
-            self.update_communication_status("통신 끊김")
-            print("입력되지 않았습니다. 다시 IP를 입력해주세요.")
-            QMessageBox.information(self, "경고", "입력되지 않았습니다. 다시 IP를 입력해주세요.")
-            return
-
-        # port 입력창이 빈 값인지 확인하고, 비어있다면 팝업창 뜨게하기
-        if port_text == '':
-            # 스레드가 실행 중이면 정지 (실행되고 있는지 확인)
-            if self.worker and self.worker.isRunning():
-                # 정지하고 완전히 끝날 때까지 대기
-                self.worker.stop()
-
-            self.update_communication_status("통신 끊김")
-            print("입력되지 않았습니다. 다시 port를 입력해주세요.")
-            QMessageBox.information(self, "경고", "입력되지 않았습니다. 다시 port를 입력해주세요.")
-            return
-
-        # ip와 ip_text를 비교하여 일치하지 않는다면 팝업창 뜨게하기
-        elif ip_text != ip:
-            # 스레드가 실행 중이면 정지 (실행되고 있는지 확인)
-            if self.worker and self.worker.isRunning():
-                # 정지하고 완전히 끝날 때까지 대기
-                self.worker.stop()
-
-            self.update_communication_status("통신 끊김")
-            print("ip 및 port 번호가 일치하지 않습니다.\n다시 IP 및 port를 입력해주세요.")
-            QMessageBox.information(self, "경고", "ip 및 port 번호가 일치하지 않습니다.\n다시 IP 및 port를 입력해주세요.")
-            return
-
-        # port 번호가 숫자가 아니라면 팝업창 뜨게하기
-        elif not port_text.isdigit():
-            # 스레드가 실행 중이면 정지 (실행되고 있는지 확인)
-            if self.worker and self.worker.isRunning():
-                # 정지하고 완전히 끝날 때까지 대기
-                self.worker.stop()
-
-            self.update_communication_status("통신 끊김")
-            print("ip 및 port 번호가 일치하지 않습니다.\n다시 IP 및 port를 입력해주세요.")
-            QMessageBox.information(self, "경고", "ip 및 port 번호가 일치하지 않습니다.\n다시 IP 및 port를 입력해주세요.")
-            return
-
-        # port와 port_text를 비교하여 일치하지 않는다면 팝업창 뜨게하기
-        elif int(port_text) != port:
-            # 스레드가 실행 중이면 정지 (실행되고 있는지 확인)
-            if self.worker and self.worker.isRunning():
-                # 정지하고 완전히 끝날 때까지 대기
-                self.worker.stop()
-
-            self.update_communication_status("통신 끊김")
-            print("ip 및 port 번호가 일치하지 않습니다.\n다시 IP 및 port를 입력해주세요.")
-            QMessageBox.information(self, "경고", "ip 및 port 번호가 일치하지 않습니다.\n다시 IP 및 port를 입력해주세요.")
-            return
-
-        # 위 조건이 충족되지 않는다면 터미널에 입력된 IP 및 Port 번호 출력하기
-        else:    
-            print(f"입력된 IP: {ip_text}, Port: {port_text}")
-            self.start_work(ip_text, int(port_text))
+        # PLC와 통신 스레드 시작
+        self.start_work(ip, port)
 
     # 메인 대시보드 통신 연결 해제 버튼 함수 
     def communication_disconnect(self):
@@ -474,38 +413,55 @@ class MainWindow(QMainWindow):
         # 스레드 시작
         self.worker.start()
 
-    # 설정 화면에서 plc ip 및 port 번호 설정 저장하기
+    # 설정 화면에서 plc ip 및 port 번호 설정 저장하기 (저장 버튼 눌렀을 시)
     def save_plc_settings(self):
         buttonReply = QMessageBox.question(
         self, '저장', "저장하시겠습니까?", 
         QMessageBox.Yes | QMessageBox.No, 
         QMessageBox.No
         )
+                
+        try:
+            ipaddress.ip_address(self.ui.set_plc_ip.text())
 
-        if buttonReply == QMessageBox.Yes:
+            if buttonReply == QMessageBox.Yes:
+                if self.ui.set_plc_port.text().isdigit():
+                    # 화면에서 읽어온 값을 창이 켜져 있는 동안 기억할 수 있게 클래스 변수(self)에 저장
+                    self.set_plc = self.ui.set_plc_ip.text()
+                    self.set_port = self.ui.set_plc_port.text()
 
-            # 화면에서 읽어온 값을 창이 켜져 있는 동안 기억할 수 있게 클래스 변수(self)에 저장
-            self.set_plc = self.ui.set_plc_ip.text()
-            self.set_port = self.ui.set_plc_port.text()
+                    # 값이 잘 들어왔는지 임시로 확인하기 위한 터미널 출력 코드
+                    print(f"plc ip: {self.set_plc}, port: {self.set_port}") 
 
-            # 값이 잘 들어왔는지 임시로 확인하기 위한 터미널 출력 코드
-            print(f"plc ip: {self.set_plc}, port: {self.set_port}") 
+                    # 설정 이름표(Key)와 실제 값(Value)을 MySetting 함수에 전달하여 저장 요청
+                    MySetting.set('set_plc', self.set_plc)
+                    MySetting.set('set_port', self.set_port)
 
-            # 설정 이름표(Key)와 실제 값(Value)을 MySetting 함수에 전달하여 저장 요청
-            MySetting.set('set_plc', self.set_plc)
-            MySetting.set('set_port', self.set_port)
+                    # 저장 직후에 메인 대시보드에 PLC IP 및 Port도 즉시 갱신해주기 
+                    self.ui.search_ip.setText(self.set_plc)
+                    self.ui.search_port.setText(self.set_port)
 
-        else:
-            pass
+                else:
+                    QMessageBox.warning(self, "경고", "port 번호는 숫자만 입력이 가능합니다.\n다시 입력해주세요.")
+                    return # 여기서 함수를 종료키기
 
+        except ValueError:
+            QMessageBox.warning(self, "경고", "plc ip 주소는 숫자만 입력이 가능합니다.\n다시 입력해주세요.")
+            return
+
+    # 프로그램을 처음 켰을 때 딱 한 번만 실행되는 함수
     def load_settings(self):
         # PLC 통신 설정 불러오기 (프로그램 종료 후 재부팅 시 글자 불러오기)
         ip_val = MySetting.get('set_plc')
         port_val = MySetting.get('set_port')
 
-        # PLC IP 및 Port 불러오기
+        # 설정 화면에 PLC IP 및 Port 불러오기
         self.ui.set_plc_ip.setText(ip_val)
         self.ui.set_plc_port.setText(port_val)
+
+        # 프로그램 켜자마자 메인 대시보드에 PLC IP 및 Port 불러오기
+        self.ui.search_ip.setText(ip_val)
+        self.ui.search_port.setText(port_val)
 
         # 온도 상/하한 설정값 불러오기 (프로그램 종료 후 재부팅 시 글자 불러오기)
         high_val = MySetting.get('limit_high')
