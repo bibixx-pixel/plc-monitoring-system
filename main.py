@@ -399,20 +399,30 @@ class MainWindow(QMainWindow):
 
     # 설정 화면에서 온도 상/하한 값 설정 저장하기
     def save_temperature_settings(self):
-        # 화면에서 읽어온 값을 창이 켜져 있는 동안 기억할 수 있게 클래스 변수(self)에 저장
-        self.limit_high = self.ui.set_high.value()
-        self.limit_low = self.ui.set_low.value()
+        buttonReply = QMessageBox.question(
+        self, '저장', "저장하시겠습니까?", 
+        QMessageBox.Yes | QMessageBox.No, 
+        QMessageBox.No
+        )
+
+        if buttonReply == QMessageBox.Yes:
+            # 화면에서 읽어온 값을 창이 켜져 있는 동안 기억할 수 있게 클래스 변수(self)에 저장
+            self.limit_high = self.ui.set_high.value()
+            self.limit_low = self.ui.set_low.value()
         
-        # 값이 잘 들어왔는지 임시로 확인하기 위한 터미널 출력 코드
-        print(f"상한: {self.limit_high}, 하한: {self.limit_low}")
+            # 값이 잘 들어왔는지 임시로 확인하기 위한 터미널 출력 코드
+            print(f"상한: {self.limit_high}, 하한: {self.limit_low}")
 
-        # 설정 이름표(Key)와 실제 값(Value)을 MySetting 함수에 전달하여 저장 요청
-        MySetting.set('limit_high', self.limit_high)
-        MySetting.set('limit_low', self.limit_low)
+            # 설정 이름표(Key)와 실제 값(Value)을 MySetting 함수에 전달하여 저장 요청
+            MySetting.set('limit_high', self.limit_high)
+            MySetting.set('limit_low', self.limit_low)
 
-        # setText는 글자만 받으므로 f-string을 써서 문자열로 바꿔줌.
-        self.ui.dash_high.setText(f"{self.limit_high} ℃")
-        self.ui.dash_low.setText(f"{self.limit_low} ℃")
+            # setText는 글자만 받으므로 f-string을 써서 문자열로 바꿔줌.
+            self.ui.dash_high.setText(f"{self.limit_high} ℃")
+            self.ui.dash_low.setText(f"{self.limit_low} ℃")
+
+        else:
+            pass
 
     # 온도 상/하한치 이탈 감지 함수
     def check_temperature_limit(self, temp_data):
@@ -461,16 +471,26 @@ class MainWindow(QMainWindow):
 
     # 설정 화면에서 plc ip 및 port 번호 설정 저장하기
     def save_plc_settings(self):
-        # 화면에서 읽어온 값을 창이 켜져 있는 동안 기억할 수 있게 클래스 변수(self)에 저장
-        self.set_plc = self.ui.set_plc_ip.text()
-        self.set_port = self.ui.set_plc_port.text()
+        buttonReply = QMessageBox.question(
+        self, '저장', "저장하시겠습니까?", 
+        QMessageBox.Yes | QMessageBox.No, 
+        QMessageBox.No
+        )
 
-        # 값이 잘 들어왔는지 임시로 확인하기 위한 터미널 출력 코드
-        print(f"plc ip: {self.set_plc}, port: {self.set_port}") 
+        if buttonReply == QMessageBox.Yes:
+            # 화면에서 읽어온 값을 창이 켜져 있는 동안 기억할 수 있게 클래스 변수(self)에 저장
+            self.set_plc = self.ui.set_plc_ip.text()
+            self.set_port = self.ui.set_plc_port.text()
 
-        # 설정 이름표(Key)와 실제 값(Value)을 MySetting 함수에 전달하여 저장 요청
-        MySetting.set('set_plc', self.set_plc)
-        MySetting.set('set_port', self.set_port)
+            # 값이 잘 들어왔는지 임시로 확인하기 위한 터미널 출력 코드
+            print(f"plc ip: {self.set_plc}, port: {self.set_port}") 
+
+            # 설정 이름표(Key)와 실제 값(Value)을 MySetting 함수에 전달하여 저장 요청
+            MySetting.set('set_plc', self.set_plc)
+            MySetting.set('set_port', self.set_port)
+
+        else:
+            pass
 
     def load_settings(self):
         # PLC 통신 설정 불러오기 (프로그램 종료 후 재부팅 시 글자 불러오기)
@@ -514,13 +534,23 @@ class MainWindow(QMainWindow):
 
     # 설정 화면에서 DB 파일 및 테이블 값 설정 저장하기
     def save_db_settings(self):
-        # 화면에서 읽어온 값을 창이 켜져 있는 동안 기억할 수 있게 클래스 변수(self)에 저장
-        self.db_path = self.ui.set_db_path.text()
-        self.db_table = self.ui.set_db_table.text()
+        buttonReply = QMessageBox.question(
+        self, '저장', "저장하시겠습니까?", 
+        QMessageBox.Yes | QMessageBox.No, 
+        QMessageBox.No
+        )
 
-        # 설정 이름표(Key)와 실제 값(Value)을 MySetting 함수에 전달하여 저장 요청
-        MySetting.set('db_path', self.db_path)
-        MySetting.set('table_name', self.db_table)
+        if buttonReply == QMessageBox.Yes:
+            # 화면에서 읽어온 값을 창이 켜져 있는 동안 기억할 수 있게 클래스 변수(self)에 저장
+            self.db_path = self.ui.set_db_path.text()
+            self.db_table = self.ui.set_db_table.text()
+
+            # 설정 이름표(Key)와 실제 값(Value)을 MySetting 함수에 전달하여 저장 요청
+            MySetting.set('db_path', self.db_path)
+            MySetting.set('table_name', self.db_table)
+
+        else:
+            pass
 
 
 if __name__ == "__main__":
