@@ -116,9 +116,9 @@ class MainWindow(QMainWindow):
 
     # 메인 대시보드 통신 연결 함수 (연결 버튼 전용 - 입력창 검사, 팝업창 출력, 검증 성공/실패 시 UI 상태 변경)
     def communication_connect(self):
-        # ip_text 및 port_text 와 비교할 기준점 설정
-        ip = "192.168.1.10"
-        port = 2011
+        # 설정 화면에서 저장한 PLC 통신 설정 불러오기
+        ip = MySetting.get('set_plc')
+        port = int(MySetting.get('set_port'))
 
         # 각각 오브젝트와 연결하여 현재 적혀 있는 문자열 읽어오기
         ip_text = self.ui.search_ip.text()
