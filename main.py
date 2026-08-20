@@ -100,6 +100,9 @@ class MainWindow(QMainWindow):
         self.ui.search_ip.setReadOnly(True)
         self.ui.search_port.setReadOnly(True)
 
+        #프로그램 실행하자마자 설정화면의 테이블명 입력창 비활성화
+        self.ui.set_db_table.setReadOnly(True)
+
         # 프로그램 실행하자마자 시스템 로그 창 타이핑 및 마우스 커서 비활성화
         self.ui.txt_system_log.setReadOnly(True)
 
@@ -494,7 +497,7 @@ class MainWindow(QMainWindow):
         if check:
             self.ui.set_db_path.setText(file)
 
-    # 설정 화면에서 DB 파일 및 테이블 값 설정 저장하기
+    # 설정 화면에서 DB 파일 및 테이블 존재 여부 확인
     def save_db_settings(self):
         buttonReply = QMessageBox.question(
         self, '저장', "저장하시겠습니까?", 
@@ -511,6 +514,12 @@ class MainWindow(QMainWindow):
             if not self.db_path.endswith('.db'):
                 QMessageBox.warning(self, "경고", "올바른 DB 파일(.db) 확장자가 아닙니다.\n다시 확인해주세요.")
                 return # 여기서 함수를 종료시켜버려서 아래쪽 저장이 안 되게 막음
+
+            # DB 파일 내에 테이블이 존재하지 않을 경우 저장을 막고 경고창 띄우기
+            if not db_manager.check_table_exists(self.db_path, self.db_table):
+                QMessageBox.warning(self, "경고", "해당 DB에 입력하신 테이블이 존재하지 않습니다.")
+                return 
+            
 
             # 설정 이름표(Key)와 실제 값(Value)을 MySetting 함수에 전달하여 저장 요청
             MySetting.set('db_path', self.db_path)
