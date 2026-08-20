@@ -424,10 +424,9 @@ class MainWindow(QMainWindow):
         QMessageBox.No
         )
                 
-        try:
-            ipaddress.ip_address(self.ui.set_plc_ip.text())
-
-            if buttonReply == QMessageBox.Yes:
+        if buttonReply == QMessageBox.Yes:
+            try:
+                ipaddress.ip_address(self.ui.set_plc_ip.text())
                 if self.ui.set_plc_port.text().isdigit():
                     # 화면에서 읽어온 값을 창이 켜져 있는 동안 기억할 수 있게 클래스 변수(self)에 저장
                     self.set_plc = self.ui.set_plc_ip.text()
@@ -444,13 +443,15 @@ class MainWindow(QMainWindow):
                     self.ui.search_ip.setText(self.set_plc)
                     self.ui.search_port.setText(self.set_port)
 
-                else:
+                
                     QMessageBox.warning(self, "경고", "port 번호는 숫자만 입력이 가능합니다.\n다시 입력해주세요.")
                     return # 여기서 함수를 종료키기
 
-        except ValueError:
-            QMessageBox.warning(self, "경고", "plc ip 주소는 숫자만 입력이 가능합니다.\n다시 입력해주세요.")
-            return
+            except ValueError:
+                QMessageBox.warning(self, "경고", "plc ip 주소는 숫자만 입력이 가능합니다.\n다시 입력해주세요.")
+                return
+        else:
+            pass
 
     # 프로그램을 처음 켰을 때 딱 한 번만 실행되는 함수
     def load_settings(self):
