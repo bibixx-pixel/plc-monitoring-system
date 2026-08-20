@@ -22,13 +22,10 @@ def get_db():
         conn.close()
  
 def init_db():
-    # 설정 화면에서 테이블명을 바꿀 수 있도록 MySetting.get('table_name')으로 불러온 변수 정의해주기
-    table_name =  MySetting.get('table_name')
-
-    # {table_name}이라는 table이 없으면 새로 생성하라는 코드
+    # temperature 라는 table이 없으면 새로 생성하라는 코드
     with get_db() as conn:
-        conn.execute(f"""
-                CREATE TABLE if not exists {table_name}(
+        conn.execute("""
+                CREATE TABLE if not exists temperature(
                         id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 
                         Low_temperature INTEGER NOT NULL,
                         High_temperature INTEGER NOT NULL, 
@@ -46,14 +43,39 @@ def init_db():
                 );
         """)
 
-def insert_temperature(timestamp, low, high, Measured):
-    # 설정 화면에서 테이블명을 바꿀 수 있도록 MySetting.get('table_name')으로 불러온 변수 정의해주기
-    table_name =  MySetting.get('table_name')
+def check_table_exists(db_path, table_name):
+    try:
+        # 데이터베이스 연결 만들기
+        conn = sqlite3.connect(db_path)
 
+        # 커서 만들기
+        cursor = conn.cursor()
+
+        # 테이블이 있는지 확인하는 SQL 쿼리를 만들기.
+        table_check_query = "SELECT name FROM sqlite_master WHERE type='table' AND name= ?"
+
+        # 커서를 사용하여 쿼리 실행.
+        cursor.execute(table_check_query,(table_name,))
+
+        # 결과 가져오기.
+        table_exists = cursor.fetchone()
+
+        # 결과 돌려주기.
+        if table_exists:
+            return True
+        else:
+            return False
+
+    finally:
+        if 'conn' in locals():
+            # 커넥션 닫기.
+            conn.close()
+
+def insert_temperature(timestamp, low, high, Measured):
     # 온도 데이터를 temperature 테이블에 저장하는 함수
     with get_db() as conn:
         cursor = conn.execute(
-            f"INSERT INTO {table_name} (Timestamp, Low_temperature, high_temperature, Measured_temp) VALUES (?, ?, ?, ?)",
+            "INSERT INTO temperature (Timestamp, Low_temperature, high_temperature, Measured_temp) VALUES (?, ?, ?, ?)",
             (timestamp, low, high, Measured)
         )
 
@@ -66,7 +88,7 @@ def insert_log(timestamp, alarm, exception):
         )
 
 # 조회한 날짜를 가져오는 함수
-def get_date_data(table_name, start_date, end_date):
+def get_date_data(start_date, end_date):
 
     # 데이터베이스 연결 (파일이 없으면 자동 생성)
     con = sqlite3.connect('plc_monitoring_system.db')
@@ -79,7 +101,7 @@ def get_date_data(table_name, start_date, end_date):
     end = (f"{end_date} 23:59:59")
 
     # 명령어 (온도 테이블에서 Timestamp 컬럼에서 start, end 값을 전달해라.)
-    query = (f"SELECT * FROM {table_name} WHERE Timestamp BETWEEN ? AND ?")
+    query = ("SELECT * FROM temperature WHERE Timestamp BETWEEN ? AND ?")
 
     # 데이터 조회 (명령어와 날짜 값 2개를 합쳐서 전달)
     cursor.execute(query, (start, end))
