@@ -91,7 +91,7 @@ def insert_log(timestamp, alarm, exception):
 def get_date_data(start_date, end_date):
 
     # 데이터베이스 연결 (파일이 없으면 자동 생성)
-    con = sqlite3.connect('plc_monitoring_system.db')
+    con = sqlite3.connect(MySetting.get('db_path'))
 
     # 커서 객체 생성 (SQL 명령 실행을 위해 필요)
     cursor = con.cursor()
